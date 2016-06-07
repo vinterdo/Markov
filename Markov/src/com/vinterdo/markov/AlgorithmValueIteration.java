@@ -1,12 +1,16 @@
 package com.vinterdo.markov;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vinterdo.markov.utils.Covergence;
+
 public class AlgorithmValueIteration
 {
-	private double discount;
-	
+	private double		discount;
+	public Covergence	covergence;
+						
 	public AlgorithmValueIteration(double discount)
 	{
 		if (discount > 1.0 || discount <= 0.0)
@@ -14,6 +18,7 @@ public class AlgorithmValueIteration
 			throw new IllegalArgumentException("Discount must be between 0 and 1");
 		}
 		this.discount = discount;
+		covergence = new Covergence();
 	}
 	
 	public Map<IMarkovNode, Double> valueIteration(IMarkovGraph mdp, double epsilon)
@@ -25,6 +30,7 @@ public class AlgorithmValueIteration
 		
 		do
 		{
+			covergence.addNew(new HashMap<>(utilities));
 			utilities.putAll(deltaUtilities);
 			delta = 0;
 			for (IMarkovNode s : mdp.getNodes())
