@@ -6,8 +6,6 @@ public interface IMarkovNode
 {
 	List<IMarkovEdge> getOutcomingEdges();
 	
-	List<IMarkovEdge> getIncomingEdges();
-	
 	float getReward();
 	
 	MarkovNodeType getNodeType();

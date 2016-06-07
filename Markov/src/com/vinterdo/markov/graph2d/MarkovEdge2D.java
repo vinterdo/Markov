@@ -10,6 +10,14 @@ public class MarkovEdge2D implements IMarkovEdge
 					
 	float			probability;
 					
+	public MarkovEdge2D(MarkovNode2D source, MarkovNode2D target, float probability)
+	{
+		super();
+		this.source = source;
+		this.target = target;
+		this.probability = probability;
+	}
+	
 	@Override
 	public IMarkovNode getTarget()
 	{
