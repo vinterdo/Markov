@@ -11,31 +11,26 @@ public class AlgorithmValueIteration
 		world = w;
 	}
 	
-	float optionValue(MarkovNode2D source, int destx, int desty)
+	float getValue(MarkovNode2D source, int destx, int desty)
 	{
-		MarkovNode2D dest;
-		//Moving out of the world
 		if (destx < 0 || destx >= world.width || desty < 0 || desty >= world.height)
 			return source.value + source.getReward();
-		dest = world.nodes[destx][desty];
-		if (dest.getNodeType() == MarkovNodeType.Forbidden)
-			return source.value + source.getReward();
-		else
-			return dest.value + dest.getReward();
 			
+		MarkovNode2D dest = world.nodes[destx][desty];
+		return dest.getNodeType() == MarkovNodeType.Forbidden ? source.value + source.getReward()
+				: dest.value + dest.getReward();
 	}
 	
-	void updateValue(MarkovNode2D node, int x, int y)
+	void calculateNextValue(MarkovNode2D node, int x, int y)
 	{
-		//Right, left, up, down
 		float usability[] =
 		{ 0, 0, 0, 0 };
 		float computedUsability[] =
 		{ 0, 0, 0, 0 };
-		usability[0] = optionValue(node, x + 1, y);
-		usability[1] = optionValue(node, x - 1, y);
-		usability[2] = optionValue(node, x, y + 1);
-		usability[3] = optionValue(node, x, y - 1);
+		usability[0] = getValue(node, x + 1, y);
+		usability[1] = getValue(node, x - 1, y);
+		usability[2] = getValue(node, x, y + 1);
+		usability[3] = getValue(node, x, y - 1);
 		
 		computedUsability[0] = world.defaultReward + world.prob1 * usability[0] + world.prob2 * usability[2]
 				+ world.prob3 * usability[3] + world.prob4 * usability[1];
@@ -56,7 +51,7 @@ public class AlgorithmValueIteration
 		node.value = max * world.discounting + node.getReward();
 	}
 	
-	public void calculatorIteration()
+	public void calculateNextIteration()
 	{
 		for (int i = 0; i < world.width; i++)
 		{
@@ -65,12 +60,10 @@ public class AlgorithmValueIteration
 				MarkovNode2D node = world.nodes[i][j];
 				if (node.getNodeType() != MarkovNodeType.Forbidden && node.getNodeType() != MarkovNodeType.Terminal)
 				{
-					updateValue(node, i, j);
+					calculateNextValue(node, i, j);
 				}
 			}
-			
 		}
-		
 	}
 	
 }

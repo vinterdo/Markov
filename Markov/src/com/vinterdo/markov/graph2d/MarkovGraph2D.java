@@ -38,24 +38,34 @@ public class MarkovGraph2D
 				if (nodes[x][y].getNodeType() == MarkovNodeType.Starting) startingNode = nodes[x][y];
 			}
 		}
-		
-		if (startingNode == null)
-		{
-			System.out.println("CAUTION: world has no defined starting node");
-			System.out.println("Policy calculator will not work properly");
-		}
 	}
 	
-	public void PrintGraph()
+	public void printGraph()
 	{
 		for (int i = height - 1; i >= 0; i--)
 		{
 			for (int j = 0; j < width; j++)
 			{
-				if (nodes[j][i].getNodeType() == MarkovNodeType.Forbidden)
-					System.out.print("FORBIDDEN\t");
-				else
-					System.out.print(nodes[j][i].value + "     \t");
+				switch (nodes[j][i].getNodeType())
+				{
+					case Forbidden:
+						System.out.print("FORBIDDEN\t");
+						break;
+					case Normal:
+						System.out.print(nodes[j][i].value + "     \t");
+						break;
+					case Special:
+						System.out.print(nodes[j][i].value + "     \t");
+						break;
+					case Starting:
+						System.out.print(nodes[j][i].value + "     \t");
+						break;
+					case Terminal:
+						System.out.print("TERMINAL\t");
+						break;
+					default:
+						break;
+				}
 			}
 			System.out.println();
 		}

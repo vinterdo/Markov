@@ -30,37 +30,37 @@ public class Main
 		List<List<MarkovNode2D>> plan5x5 = new ArrayList<List<MarkovNode2D>>();
 		List<MarkovNode2D> row = new ArrayList<MarkovNode2D>();
 		row.add(new MarkovNode2D(90, MarkovNodeType.Terminal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Special));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(-50, MarkovNodeType.Terminal));
 		plan5x5.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		plan5x5.add(row);
 		row = new ArrayList<MarkovNode2D>();
 		row.add(new MarkovNode2D(-10, MarkovNodeType.Special));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Starting));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(-20, MarkovNodeType.Special));
 		plan5x5.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		plan5x5.add(row);
 		row = new ArrayList<MarkovNode2D>();
 		row.add(new MarkovNode2D(100, MarkovNodeType.Terminal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(-50, MarkovNodeType.Special));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(100, MarkovNodeType.Terminal));
 		plan5x5.add(row);
 		
@@ -73,12 +73,12 @@ public class Main
 		for (int i = 0; i < 50; i++)
 		{
 			change = world5x5.startingNode.value;
-			world5x5.PrintGraph();
-			calc.calculatorIteration();
+			world5x5.printGraph();
+			calc.calculateNextIteration();
 			System.out.println();
 			if (Math.abs(change - world5x5.startingNode.value) < 0.0001 && i > 10)
 			{
-				System.out.println("Ending after: " + i + " iterations");
+				System.out.println(i + " iterations");
 				break;
 			}
 		}
@@ -91,27 +91,27 @@ public class Main
 		List<List<MarkovNode2D>> plan4x4 = new ArrayList<List<MarkovNode2D>>();
 		List<MarkovNode2D> row = new ArrayList<MarkovNode2D>();
 		row.add(new MarkovNode2D(0, MarkovNodeType.Starting));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
 		row.add(new MarkovNode2D(100, MarkovNodeType.Terminal));
 		plan4x4.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(-20, MarkovNodeType.Special));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		plan4x4.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
 		plan4x4.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
 		plan4x4.add(row);
 		
 		MarkovGraph2D world4x4 = new MarkovGraph2D(4, 4, 0.8f, 0.1f, 0.1f, 0.99f, -10, plan4x4);
@@ -123,12 +123,12 @@ public class Main
 		for (int i = 0; i < 50; i++)
 		{
 			change = world4x4.startingNode.value;
-			world4x4.PrintGraph();
-			calc.calculatorIteration();
+			world4x4.printGraph();
+			calc.calculateNextIteration();
 			System.out.println();
 			if (Math.abs(change - world4x4.startingNode.value) < 0.0001 && i > 10)
 			{
-				System.out.println("Ending after: " + i + " iterations");
+				System.out.println(i + " iterations");
 				break;
 			}
 		}
@@ -141,20 +141,20 @@ public class Main
 		List<List<MarkovNode2D>> plan4x3 = new ArrayList<>();
 		List<MarkovNode2D> row = new ArrayList<MarkovNode2D>();
 		row.add(new MarkovNode2D(0, MarkovNodeType.Starting));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
 		plan4x3.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(0, MarkovNodeType.Forbidden));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(-1, MarkovNodeType.Terminal));
 		plan4x3.add(row);
 		row = new ArrayList<MarkovNode2D>();
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
-		row.add(new MarkovNode2D(0, MarkovNodeType.Normal));
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
+		row.add(new MarkovNode2D());
 		row.add(new MarkovNode2D(1, MarkovNodeType.Terminal));
 		plan4x3.add(row);
 		
@@ -167,12 +167,12 @@ public class Main
 		for (int i = 0; i < MAX_ITERATIONS; i++)
 		{
 			change = world4x3.startingNode.value;
-			world4x3.PrintGraph();
-			calc.calculatorIteration();
+			world4x3.printGraph();
+			calc.calculateNextIteration();
 			System.out.println();
 			if (Math.abs(change - world4x3.startingNode.value) < EPSILON && i > 10)
 			{
-				System.out.println("Ending after: " + i + " iterations");
+				System.out.println(i + " iterations");
 				break;
 			}
 		}
