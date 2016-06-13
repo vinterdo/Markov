@@ -1,101 +1,65 @@
 package com.vinterdo.markov.graph2d;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import com.vinterdo.markov.IMarkovGraph;
-import com.vinterdo.markov.IMarkovNode;
 import com.vinterdo.markov.MarkovNodeType;
 
-public class MarkovGraph2D implements IMarkovGraph
+public class MarkovGraph2D
 {
-	Coord				startingNode;
-	final float			basicReward;
-	MarkovNode2D[][]	nodes;
-						
-	public MarkovGraph2D(int sizeX, int sizeY, float basicReward, Coord start)
+	public MarkovNode2D		startingNode;
+	public MarkovNode2D[][]	nodes;
+	int						width, height;
+							
+	public float			prob1, prob2, prob3, prob4;
+	public float			discounting;
+	public float			defaultReward;
+							
+	public MarkovGraph2D(int sizeX, int sizeY, float p1, float p2, float p3, float disc, float defrew,
+			List<List<MarkovNode2D>> plan)
 	{
-		this.basicReward = basicReward;
+		width = sizeX;
+		height = sizeY;
+		prob1 = p1;
+		prob2 = p2;
+		prob3 = p3;
+		prob4 = 1 - p1 - p2 - p3;
+		discounting = disc;
+		defaultReward = defrew;
 		
 		nodes = new MarkovNode2D[sizeX][sizeY];
-		for (int y = 0; y < sizeY; y++)
-		{
-			for (int x = 0; x < sizeX; x++)
-			{
-				nodes[x][y] = new MarkovNode2D();
-				nodes[x][y].reward = basicReward;
-			}
-		}
+		List<MarkovNode2D> row;
 		
 		for (int y = 0; y < sizeY; y++)
 		{
+			row = plan.get(y);
 			for (int x = 0; x < sizeX; x++)
 			{
-				nodes[x][y].setEdgeUp(0.5f, getNodeOrNull(x, y - 1));
-				nodes[x][y].setEdgeDown(0.5f, getNodeOrNull(x, y + 1));
-				nodes[x][y].setEdgeRight(0.5f, getNodeOrNull(x + 1, y));
-				nodes[x][y].setEdgeLeft(0.5f, getNodeOrNull(x - 1, y));
+				nodes[x][y] = row.get(x);
+				if (nodes[x][y].getNodeType() == MarkovNodeType.Starting) startingNode = nodes[x][y];
 			}
 		}
-		nodes.toString();
-	}
-	
-	private MarkovNode2D getNodeOrNull(int x, int y)
-	{
-		return x >= 0 && y >= 0 && x < nodes.length && y < nodes[0].length ? nodes[x][y] : null;
-	}
-	
-	@Override
-	public List<IMarkovNode> getNodes()
-	{
-		return twoDArrayToList(nodes);
-	}
-	
-	@Override
-	public IMarkovNode getStartingNode()
-	{
-		return nodes[startingNode.x][startingNode.y];
-	}
-	
-	private <T> List<T> twoDArrayToList(T[][] twoDArray)
-	{
-		List<T> list = new ArrayList<T>();
-		for (T[] array : twoDArray)
-		{
-			list.addAll(Arrays.asList(array));
-		}
-		return list;
-	}
-	
-	@Override
-	public IMarkovGraph clone()
-	{
-		MarkovGraph2D cloned = new MarkovGraph2D(0, 0, 0, null);
-		cloned.nodes = nodes.clone();
-		cloned.startingNode = startingNode.clone();
 		
-		return cloned;
-	}
-	
-	public void setNode(Coord coord, float reward, MarkovNodeType type)
-	{
-		nodes[coord.x][coord.y].reward = reward;
-		nodes[coord.x][coord.y].type = type;
-	}
-	
-	public void printUtilities(Map<IMarkovNode, Double> utils)
-	{
-		System.out.print("\n");
-		for (int y = 0; y < nodes[0].length; y++)
+		if (startingNode == null)
 		{
-			for (int x = 0; x < nodes.length; x++)
-			{
-				System.out.print(utils.get(nodes[x][y]) + "     ");
-			}
-			
-			System.out.print("\n");
+			System.out.println("CAUTION: world has no defined starting node");
+			System.out.println("Policy calculator will not work properly");
 		}
 	}
+	
+	public void PrintGraph()
+	{
+		for (int i = height - 1; i >= 0; i--)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				if (nodes[j][i].getNodeType() == MarkovNodeType.Forbidden)
+					System.out.print("FORBIDDEN\t");
+				else
+					System.out.print(nodes[j][i].value + "     \t");
+			}
+			System.out.println();
+		}
+		
+	}
+	
 }
