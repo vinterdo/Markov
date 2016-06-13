@@ -25,28 +25,22 @@ public class AlgorithmValueIteration
 	{
 		float usability[] =
 		{ 0, 0, 0, 0 };
-		float computedUsability[] =
+		float computed[] =
 		{ 0, 0, 0, 0 };
 		usability[0] = getValue(node, x + 1, y);
 		usability[1] = getValue(node, x - 1, y);
 		usability[2] = getValue(node, x, y + 1);
 		usability[3] = getValue(node, x, y - 1);
 		
-		computedUsability[0] = world.defaultReward + world.prob1 * usability[0] + world.prob2 * usability[2]
+		computed[0] = world.defaultReward + world.prob1 * usability[0] + world.prob2 * usability[2]
 				+ world.prob3 * usability[3] + world.prob4 * usability[1];
-		float max = computedUsability[0];
-		
-		computedUsability[1] = world.defaultReward + world.prob1 * usability[1] + world.prob2 * usability[3]
+		computed[1] = world.defaultReward + world.prob1 * usability[1] + world.prob2 * usability[3]
 				+ world.prob3 * usability[2] + world.prob4 * usability[0];
-		if (computedUsability[1] > max) max = computedUsability[1];
-		
-		computedUsability[2] = world.defaultReward + world.prob1 * usability[2] + world.prob2 * usability[1]
+		computed[2] = world.defaultReward + world.prob1 * usability[2] + world.prob2 * usability[1]
 				+ world.prob3 * usability[0] + world.prob4 * usability[3];
-		if (computedUsability[2] > max) max = computedUsability[2];
-		
-		computedUsability[3] = world.defaultReward + world.prob1 * usability[3] + world.prob2 * usability[0]
+		computed[3] = world.defaultReward + world.prob1 * usability[3] + world.prob2 * usability[0]
 				+ world.prob3 * usability[1] + world.prob4 * usability[2];
-		if (computedUsability[3] > max) max = computedUsability[3];
+		float max = Math.max(computed[0], Math.max(computed[1], Math.max(computed[2], computed[3])));
 		
 		node.value = max * world.discounting + node.getReward();
 	}
